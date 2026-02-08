@@ -1,0 +1,87 @@
+User:
+  _id: ObjectId
+
+  fullName:
+    type: String
+    required: true
+    trim: true
+
+  email:
+    type: String
+    required: true
+    unique: true
+    lowercase: true
+
+  password:
+    type: String
+    required: true
+    minlength: 8
+
+  contact:
+    phone:
+      type: String
+    countryCode:
+      type: String
+
+  picture:
+    type: String
+    description: URL of profile image
+
+  role:
+    type: String
+    enum:
+      - user
+      - admin
+    default: user
+
+  isVerified:
+    type: Boolean
+    default: false
+
+  cart:
+    type: Array
+    items:
+      productId: ObjectId
+      quantity: Number
+      price: Number
+
+  orders:
+    type: Array
+    description: References to Order collection
+    items:
+      orderId: ObjectId
+
+  shippingAddress:
+    fullName: String
+    addressLine1: String
+    addressLine2: String
+    city: String
+    state: String
+    postalCode: String
+    country: String
+
+  paymentProfile:
+    paymentProvider:
+      type: String
+      enum:
+        - stripe
+        - razorpay
+        - paypal
+    customerId:
+      type: String
+    last4:
+      type: String
+
+  resetPasswordToken:
+    type: String
+
+  resetPasswordExpire:
+    type: Date
+
+  createdAt:
+    type: Date
+    default: Date.now
+
+  updatedAt:
+    type: Date
+    default: Date.now
