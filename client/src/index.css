@@ -1,68 +1,81 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html { scroll-behavior: smooth; }
+  
+  body {
+    @apply bg-primary text-text-primary font-body antialiased;
+    overflow-x: hidden;
   }
-  a:hover {
-    color: #747bff;
+
+  ::selection {
+    @apply bg-gold text-primary;
   }
-  button {
-    background-color: #f9f9f9;
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-primary; }
+  ::-webkit-scrollbar-thumb { @apply bg-gold rounded-full; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gold text-primary font-body font-medium px-8 py-4 
+           text-sm tracking-widest uppercase transition-all duration-300
+           hover:bg-gold-light hover:shadow-gold active:scale-95;
+    border-radius: 2px;
+  }
+
+  .btn-secondary {
+    @apply border border-gold text-gold font-body font-medium px-8 py-4
+           text-sm tracking-widest uppercase transition-all duration-300
+           hover:bg-gold hover:text-primary active:scale-95;
+    border-radius: 2px;
+  }
+
+  .btn-ghost {
+    @apply text-text-primary font-body font-medium text-sm tracking-widest 
+           uppercase transition-all duration-300 hover:text-gold
+           border-b border-transparent hover:border-gold pb-1;
+  }
+
+  .input-field {
+    @apply w-full bg-surface border border-surface-border text-text-primary
+           px-4 py-3 font-body text-sm placeholder-text-disabled
+           focus:outline-none focus:border-gold transition-colors duration-200;
+    border-radius: 2px;
+  }
+
+  .card-product {
+    @apply bg-surface border border-surface-border overflow-hidden
+           transition-all duration-500 hover:border-gold hover:shadow-gold
+           cursor-pointer group;
+  }
+
+  .section-label {
+    @apply text-gold font-body text-xs tracking-[0.3em] uppercase font-medium;
+  }
+
+  .section-title {
+    @apply font-display text-text-primary;
+  }
+
+  .nav-link {
+    @apply text-text-secondary font-body text-sm tracking-wider uppercase
+           transition-colors duration-200 hover:text-text-primary
+           relative after:absolute after:bottom-0 after:left-0 after:w-0 
+           after:h-px after:bg-gold after:transition-all after:duration-300
+           hover:after:w-full;
+  }
+
+  .skeleton {
+    @apply bg-surface-raised animate-shimmer;
+    background: linear-gradient(90deg, #1A1A1A 25%, #222222 50%, #1A1A1A 75%);
+    background-size: 200% 100%;
   }
 }
