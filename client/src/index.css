@@ -52,10 +52,10 @@
   }
 
   .card-product {
-    @apply bg-surface border border-surface-border overflow-hidden
-           transition-all duration-500 hover:border-gold hover:shadow-gold
-           cursor-pointer group;
-  }
+  @apply bg-surface border border-surface-border overflow-hidden
+         transition-all duration-500 hover:border-gold hover:shadow-gold
+         cursor-pointer;
+}
 
   .section-label {
     @apply text-gold font-body text-xs tracking-[0.3em] uppercase font-medium;

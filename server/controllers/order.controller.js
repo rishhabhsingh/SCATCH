@@ -172,6 +172,9 @@ const mockPayment = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-  createRazorpayOrder, verifyPayment, getMyOrders,
-  getOrderById, getAllOrders, updateOrderStatus, mockPayment
+  mockPayment,
+  getMyOrders,
+  getOrderById,
+  getAllOrders,
+  updateOrderStatus,
 }
