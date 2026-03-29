@@ -11,6 +11,8 @@ import Register from './pages/auth/Register'
 import Dashboard from './pages/dashboard/Dashboard'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import ProtectedRoute from './components/layout/ProtectedRoute'
+import About from './pages/About'
+import Collections from './pages/Collections'
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="about" element={<About />} />
+          <Route path="collections" element={<Collections />} />
 
           {/* Protected customer routes */}
           <Route element={<ProtectedRoute />}>
