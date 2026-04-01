@@ -195,19 +195,36 @@ const FeaturedProducts = () => {
   const headingRef = useRef(null)
   const cardsRef = useRef([])
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      const categories = ['tote', 'crossbody', 'backpack', 'wallet', 'briefcase', 'duffle']
+
+      const results = await Promise.all(
+        categories.map(cat =>
+          productService.getAll({ category: cat, limit: 1, sort: 'newest' })
+            .then(res => res.data.data.products[0])
+            .catch(() => null)
+        )
+      )
+
+      const validProducts = results.filter(Boolean)
+
+      // If we got less than 4, fill with newest products
+      if (validProducts.length < 4) {
         const res = await productService.getAll({ limit: 8, sort: 'newest' })
         setProducts(res.data.data.products)
-      } catch (err) {
-        console.error('Failed to fetch products:', err)
-      } finally {
-        setLoading(false)
+      } else {
+        setProducts(validProducts)
       }
+    } catch (err) {
+      console.error('Failed to fetch products:', err)
+    } finally {
+      setLoading(false)
     }
-    fetchProducts()
-  }, [])
+  }
+  fetchProducts()
+}, [])
 
   useEffect(() => {
     if (loading || products.length === 0) return

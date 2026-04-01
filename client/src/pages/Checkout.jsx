@@ -30,6 +30,7 @@ const Checkout = () => {
   const [selectedAddress, setSelectedAddress] = useState(null)
 
   const { items, clearCart, getTotalAmount } = useCartStore()
+  const { accessToken } = useAuthStore()
   const { user } = useAuthStore()
   const navigate = useNavigate()
 

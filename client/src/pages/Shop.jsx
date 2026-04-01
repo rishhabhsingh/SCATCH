@@ -151,8 +151,7 @@ const categories = [
   { value: 'backpack', label: 'Backpacks' },
   { value: 'wallet', label: 'Wallets' },
   { value: 'briefcase', label: 'Briefcases' },
-  { value: 'duffle', label: 'Duffle Bags' },
-  { value: 'clutch', label: 'Clutch' },
+  { value: 'duffle', label: 'Duffle Bags' }
 ]
 
 const sortOptions = [
@@ -245,9 +244,6 @@ const updateFilter = (key, value) => {
                 : 'The Collection'
               }
             </h1>
-            <p className="font-body text-text-secondary text-sm hidden lg:block">
-              {total} {total === 1 ? 'product' : 'products'} found
-            </p>
           </div>
         </div>
       </div>
@@ -362,9 +358,9 @@ const updateFilter = (key, value) => {
                 Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
               </button>
 
-              <p className="text-text-disabled font-body text-sm lg:hidden">
-                {total} results
-              </p>
+             <p className="text-text-disabled font-body text-sm lg:hidden">
+  {total} results
+</p>
 
               {/* Sort */}
               <div className="relative ml-auto">

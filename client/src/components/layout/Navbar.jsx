@@ -5,6 +5,40 @@ import { useAuthStore } from '../../store/authStore'
 import { useCartStore } from '../../store/cartStore'
 import { gsap } from 'gsap'
 
+const announcements = [
+  'Handcrafted Premium Leather Bags',
+  'Complimentary Shipping Above ₹2000',
+  '7-Day Easy Returns',
+]
+
+const MobileAnnouncement = () => {
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent(prev => (prev + 1) % announcements.length)
+    }, 2500)
+    return () => clearInterval(timer)
+  }, [])
+
+  return (
+    <div className="md:hidden text-center px-4 relative h-4 overflow-hidden">
+      {announcements.map((text, i) => (
+        <span
+          key={i}
+          className="absolute inset-0 flex items-center justify-center transition-all duration-500 text-xs tracking-widest uppercase"
+          style={{
+            opacity: i === current ? 1 : 0,
+            transform: i === current ? 'translateY(0)' : 'translateY(10px)',
+          }}
+        >
+          {text}
+        </span>
+      ))}
+    </div>
+  )
+}
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
@@ -73,11 +107,12 @@ const Navbar = () => {
           }`}
       >
         {/* Top announcement bar */}
-        <div className="bg-gold text-primary py-2 text-xs tracking-[0.2em] uppercase font-body font-medium overflow-hidden">
-            <div className="whitespace-nowrap px-4 text-center">
-                Handcrafted Premium Leather Bag &nbsp;|&nbsp; Complimentary shipping above ₹2000 &nbsp;&nbsp;|&nbsp;&nbsp; 7-Day Easy Returns
-          </div>
-        </div>
+       <div className="bg-gold text-primary py-2 text-xs tracking-[0.2em] uppercase font-body font-medium overflow-hidden">
+  <div className="whitespace-nowrap px-4 text-center hidden md:block">
+    Handcrafted Premium Leather Bag &nbsp;|&nbsp; Complimentary Shipping Above ₹2000 &nbsp;|&nbsp; 7-Day Easy Returns
+  </div>
+  <MobileAnnouncement />
+</div>
 
         {/* Main navbar */}
         <div className="max-w-7xl mx-auto px-6 lg:px-12">

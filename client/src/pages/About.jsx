@@ -54,13 +54,13 @@ const About = () => {
   }, [])
 
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="bg-primary min-h-screen pt-20">
 
       {/* Hero */}
-      <div className="relative h-[70vh] overflow-hidden">
+      <div className="relative overflow-hidden" style={{ height: '70vh', marginTop: '80px' }}>
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(https://images.unsplash.com/photo-1547949003-9792a18a2601?w=1400)` }}
+          style={{ backgroundImage: `url(https://res.cloudinary.com/dqygddc7b/image/upload/v1775044620/brandstory_rvnmm6.jpg)` }}
         />
         <div className="absolute inset-0 bg-primary/70" />
         <div className="relative z-10 h-full flex items-center">
@@ -99,7 +99,7 @@ const About = () => {
           <div className="relative overflow-hidden" style={{ height: '500px' }}>
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1000)` }}
+              style={{ backgroundImage: `url(https://res.cloudinary.com/dqygddc7b/image/upload/v1775044620/brandstory_rvnmm6.jpg)` }}
             />
             <div className="absolute top-4 left-4 w-12 h-12">
               <div className="absolute top-0 left-0 w-full h-px bg-gold" />
