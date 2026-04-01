@@ -93,7 +93,7 @@ const BrandStory = () => {
               ref={imageRef}
               className="absolute inset-0 bg-cover bg-center scale-110"
               style={{
-                backgroundImage: `url(public/categories/brandstory.jpg)`,
+                backgroundImage: `url(https://res.cloudinary.com/dqygddc7b/image/upload/v1775044620/brandstory_rvnmm6.jpg)`,
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-primary/30" />

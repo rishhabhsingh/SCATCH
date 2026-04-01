@@ -26,7 +26,7 @@ const categories = [
     description: 'Move freely. Look flawless. Compact designs that carry everything you need.',
     path: '/shop?category=crossbody',
     images: [
-      'public/categories/crossbody.jpeg',
+      'https://res.cloudinary.com/dqygddc7b/image/upload/v1775044400/crossbody_cahwoz.jpg',
       'https://i.pinimg.com/1200x/9b/49/2d/9b492df0777e8d647e5ea90f7701a48a.jpg',
       'https://i.pinimg.com/736x/4e/22/33/4e22335fce92ff998cf887464c624453.jpg',
     ],
@@ -40,7 +40,7 @@ const categories = [
     path: '/shop?category=backpack',
     images: [
       'https://i.pinimg.com/736x/29/f7/df/29f7dff9f91171886e75c67d83f78f26.jpg',
-      'public/categories/backpacks.jpeg',
+      'https://res.cloudinary.com/dqygddc7b/image/upload/v1775044459/backpacks_hjfy6d.jpg',
       'https://i.pinimg.com/1200x/e8/b5/af/e8b5afc59bcbbcb7f400af6828ee3cdc.jpg',
     ],
     count: '15 Styles',
@@ -53,7 +53,7 @@ const categories = [
     path: '/shop?category=duffle',
     images: [
       'https://i.pinimg.com/736x/03/83/38/038338be77357c05d5991bb6a2260254.jpg',
-      'public/categories/duffle.jpeg',
+      'https://res.cloudinary.com/dqygddc7b/image/upload/v1775044493/duffle_ctoe7b.jpg',
       'https://i.pinimg.com/736x/f3/0b/d1/f30bd127d7b262682b945a61d7068b46.jpg',
     ],
     count: '10 Styles',
@@ -66,7 +66,7 @@ const categories = [
     path: '/shop?category=briefcase',
     images: [
       'https://i.pinimg.com/1200x/47/a3/72/47a372295aa19240c5f57f8fe98e0fb0.jpg',
-      'public/categories/briefcase.jpeg',
+      'https://res.cloudinary.com/dqygddc7b/image/upload/v1775044521/briefcase_lcvwrr.jpg',
       'https://i.pinimg.com/1200x/8c/58/44/8c5844402f09ef034ea9dba5bd3addb2.jpg',
     ],
     count: '8 Styles',
@@ -79,7 +79,7 @@ const categories = [
     path: '/shop?category=wallet',
     images: [
       'https://images.unsplash.com/photo-1627123424574-724758594e93?w=800',
-      'public/categories/wallets.jpeg',
+      'https://res.cloudinary.com/dqygddc7b/image/upload/v1775044545/wallets_l4fsfb.jpg',
       'https://i.pinimg.com/1200x/d1/ca/34/d1ca345765322e7e4814af59e6b70c68.jpg',
     ],
     count: '12 Styles',

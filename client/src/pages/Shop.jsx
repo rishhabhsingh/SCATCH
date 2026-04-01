@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect,} from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { SlidersHorizontal, X, ChevronDown, Search } from 'lucide-react'
 import { productService } from '../services/product.service'
@@ -172,52 +172,57 @@ const Shop = () => {
 
   // Filter state — read from URL
   const [filters, setFilters] = useState({
-    search: searchParams.get('search') || '',
-    category: searchParams.get('category') || '',
-    minPrice: searchParams.get('minPrice') || '',
-    maxPrice: searchParams.get('maxPrice') || '',
-    sort: searchParams.get('sort') || 'newest',
-    page: Number(searchParams.get('page')) || 1,
-  })
+  search: searchParams.get('search') || '',
+  category: searchParams.get('category') || '',
+  minPrice: searchParams.get('minPrice') || '',
+  maxPrice: searchParams.get('maxPrice') || '',
+  sort: searchParams.get('sort') || 'newest',
+  page: Number(searchParams.get('page')) || 1,
+})
 
-  const fetchProducts = useCallback(async () => {
-    setLoading(true)
-    try {
-      const params = {}
-      if (filters.search) params.search = filters.search
-      if (filters.category) params.category = filters.category
-      if (filters.minPrice) params.minPrice = filters.minPrice
-      if (filters.maxPrice) params.maxPrice = filters.maxPrice
-      if (filters.sort) params.sort = filters.sort
-      params.page = filters.page
-      params.limit = 12
+const fetchProducts = async (currentFilters) => {
+  setLoading(true)
+  try {
+    const params = {}
+    if (currentFilters.search) params.search = currentFilters.search
+    if (currentFilters.category) params.category = currentFilters.category
+    if (currentFilters.minPrice) params.minPrice = currentFilters.minPrice
+    if (currentFilters.maxPrice) params.maxPrice = currentFilters.maxPrice
+    if (currentFilters.sort) params.sort = currentFilters.sort
+    params.page = currentFilters.page
+    params.limit = 12
 
-      const res = await productService.getAll(params)
-      setProducts(res.data.data.products)
-      setTotal(res.data.data.pagination.total)
-      setPages(res.data.data.pagination.pages)
-    } catch {
-      toast.error('Failed to load products')
-    } finally {
-      setLoading(false)
-    }
-  }, [filters])
+    const res = await productService.getAll(params)
+    setProducts(res.data.data.products)
+    setTotal(res.data.data.pagination.total)
+    setPages(res.data.data.pagination.pages)
+  } catch {
+    toast.error('Failed to load products')
+  } finally {
+    setLoading(false)
+  }
+}
 
-  useEffect(() => {
-  fetchProducts()
+useEffect(() => {
+  fetchProducts(filters)
+
   const params = {}
   if (filters.search) params.search = filters.search
   if (filters.category) params.category = filters.category
   if (filters.minPrice) params.minPrice = filters.minPrice
   if (filters.maxPrice) params.maxPrice = filters.maxPrice
   if (filters.sort && filters.sort !== 'newest') params.sort = filters.sort
-  if (filters.page && filters.page > 1) params.page = filters.page
+  if (filters.page > 1) params.page = String(filters.page)
   setSearchParams(params)
 }, [filters])
 
-  const updateFilter = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value, page: 1 }))
-  }
+const updateFilter = (key, value) => {
+  setFilters(prev => ({
+    ...prev,
+    [key]: value,
+    ...(key !== 'page' ? { page: 1 } : {}),
+  }))
+}
 
   const clearFilters = () => {
     setFilters({ search: '', category: '', minPrice: '', maxPrice: '', sort: 'newest', page: 1 })
@@ -431,39 +436,39 @@ const Shop = () => {
             )}
 
             {/* Pagination */}
-            {pages > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-12">
-                <button
-                  onClick={() => updateFilter('page', filters.page - 1)}
-                  disabled={filters.page === 1}
-                  className="w-10 h-10 border border-surface-border flex items-center justify-center text-text-secondary hover:text-gold hover:border-gold transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  ←
-                </button>
+           {pages > 1 && (
+  <div className="flex items-center justify-center gap-2 mt-12">
+    <button
+      onClick={() => updateFilter('page', filters.page - 1)}
+      disabled={filters.page === 1}
+      className="w-10 h-10 border border-surface-border flex items-center justify-center text-text-secondary hover:text-gold hover:border-gold transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+    >
+      ←
+    </button>
 
-                {[...Array(pages)].map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => updateFilter('page', i + 1)}
-                    className={`w-10 h-10 border font-mono text-sm transition-colors
-                      ${filters.page === i + 1
-                        ? 'border-gold text-gold bg-surface'
-                        : 'border-surface-border text-text-secondary hover:text-gold hover:border-gold'
-                      }`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+    {[...Array(pages)].map((_, i) => (
+      <button
+        key={i + 1}
+        onClick={() => updateFilter('page', i + 1)}
+        className={`w-10 h-10 border font-mono text-sm transition-colors
+          ${filters.page === i + 1
+            ? 'border-gold text-gold bg-surface'
+            : 'border-surface-border text-text-secondary hover:text-gold hover:border-gold'
+          }`}
+      >
+        {i + 1}
+      </button>
+    ))}
 
-                <button
-                  onClick={() => updateFilter('page', filters.page + 1)}
-                  disabled={filters.page === pages}
-                  className="w-10 h-10 border border-surface-border flex items-center justify-center text-text-secondary hover:text-gold hover:border-gold transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  →
-                </button>
-              </div>
-            )}
+    <button
+      onClick={() => updateFilter('page', filters.page + 1)}
+      disabled={filters.page === pages}
+      className="w-10 h-10 border border-surface-border flex items-center justify-center text-text-secondary hover:text-gold hover:border-gold transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+    >
+      →
+    </button>
+  </div>
+)}
           </div>
         </div>
       </div>
