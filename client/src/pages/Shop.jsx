@@ -204,14 +204,16 @@ const Shop = () => {
   }, [filters])
 
   useEffect(() => {
-    fetchProducts()
-    // Sync filters to URL
-    const params = {}
-    Object.entries(filters).forEach(([k, v]) => {
-      if (v && v !== 'newest' && v !== 1) params[k] = v
-    })
-    setSearchParams(params)
-  }, [filters, fetchProducts])
+  fetchProducts()
+  const params = {}
+  if (filters.search) params.search = filters.search
+  if (filters.category) params.category = filters.category
+  if (filters.minPrice) params.minPrice = filters.minPrice
+  if (filters.maxPrice) params.maxPrice = filters.maxPrice
+  if (filters.sort && filters.sort !== 'newest') params.sort = filters.sort
+  if (filters.page && filters.page > 1) params.page = filters.page
+  setSearchParams(params)
+}, [filters])
 
   const updateFilter = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value, page: 1 }))
