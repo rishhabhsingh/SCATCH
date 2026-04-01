@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { useEffect } from 'react'
 import { useAuthStore } from './store/authStore'
 import { authService } from './services/auth.service'
-
+import { Analytics } from "@vercel/analytics/next"
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import Shop from './pages/Shop'
