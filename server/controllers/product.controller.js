@@ -11,11 +11,14 @@ const CACHE_TTL = 3600 // 1 hour in seconds
 const getAllProducts = asyncHandler(async (req, res) => {
   const { category, minPrice, maxPrice, search, sort, page = 1, limit = 12 } = req.query
 
+  // Try cache — but never crash if Redis fails
   const cacheKey = `products:${JSON.stringify(req.query)}`
-  const cached = await redis.get(cacheKey)
-  if (cached) {
-    return sendResponse(res, 200, true, 'Products fetched (cache)', JSON.parse(cached))
-  }
+  try {
+    const cached = await redis.get(cacheKey)
+    if (cached) {
+      return sendResponse(res, 200, true, 'Products fetched (cache)', JSON.parse(cached))
+    }
+  } catch (e) {}
 
   const query = {}
   if (category) query.category = category
@@ -48,22 +51,45 @@ const getAllProducts = asyncHandler(async (req, res) => {
     },
   }
 
-  await redis.setex(cacheKey, CACHE_TTL, JSON.stringify(data))
+  // Try to cache — but never crash if Redis fails
+  try {
+    await redis.setex(cacheKey, CACHE_TTL, JSON.stringify(data))
+  } catch (e) {}
+
   sendResponse(res, 200, true, 'Products fetched', data)
 })
 
 // @GET /api/products/:id
 const getProductById = asyncHandler(async (req, res) => {
   const cacheKey = `product:${req.params.id}`
-  const cached = await redis.get(cacheKey)
-  if (cached) {
-    return sendResponse(res, 200, true, 'Product fetched (cache)', JSON.parse(cached))
+
+  // Try reading from Redis
+  try {
+    const cached = await redis.get(cacheKey)
+    if (cached) {
+      return sendResponse(
+        res,
+        200,
+        true,
+        'Product fetched (cache)',
+        JSON.parse(cached)
+      )
+    }
+  } catch (err) {
+    console.error('Redis GET error:', err.message)
   }
 
+  // Fetch from DB
   const product = await Product.findById(req.params.id)
   if (!product) return sendResponse(res, 404, false, 'Product not found')
 
-  await redis.setex(cacheKey, CACHE_TTL, JSON.stringify(product))
+  // Try writing to Redis
+  try {
+    await redis.setex(cacheKey, CACHE_TTL, JSON.stringify(product))
+  } catch (err) {
+    console.error('Redis SET error:', err.message)
+  }
+
   sendResponse(res, 200, true, 'Product fetched', product)
 })
 
