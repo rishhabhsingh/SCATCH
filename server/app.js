@@ -17,7 +17,7 @@ const app = express()
 app.use(helmet())
 app.use(cors({
   origin: [
-    process.env.CLIENT_URL,
+    'https://scatchbyrs.vercel.app',
     'http://localhost:5173',
   ],
   credentials: true,
