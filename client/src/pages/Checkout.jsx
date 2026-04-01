@@ -8,6 +8,7 @@ import { orderService } from '../services/order.service'
 import { useCartStore } from '../store/cartStore'
 import { useAuthStore } from '../store/authStore'
 import toast from 'react-hot-toast'
+import { authService } from '../services/auth.service'
 
 const schema = z.object({
   street: z.string().min(5, 'Enter a valid street address'),
@@ -25,6 +26,8 @@ const Checkout = () => {
   const [placing, setPlacing] = useState(false)
   const [orderPlaced, setOrderPlaced] = useState(false)
   const [orderId, setOrderId] = useState(null)
+  const [savedAddresses, setSavedAddresses] = useState([])
+  const [selectedAddress, setSelectedAddress] = useState(null)
 
   const { items, clearCart, getTotalAmount } = useCartStore()
   const { user } = useAuthStore()
@@ -34,9 +37,28 @@ const Checkout = () => {
   const shipping = subtotal >= 2000 ? 0 : 199
   const total = subtotal + shipping
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: zodResolver(schema),
-  })
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+  resolver: zodResolver(schema),
+})
+
+  useEffect(() => {
+  if (accessToken) {
+    authService.getAddresses()
+      .then(res => {
+        const addrs = res.data.data.address || []
+        setSavedAddresses(addrs)
+        const defaultAddr = addrs.find(a => a.isDefault) || addrs[0]
+        if (defaultAddr) {
+          setSelectedAddress(defaultAddr)
+          setValue('street', defaultAddr.street)
+          setValue('city', defaultAddr.city)
+          setValue('state', defaultAddr.state)
+          setValue('pincode', defaultAddr.pincode)
+        }
+      })
+      .catch(() => {})
+  }
+}, [accessToken])
 
   useEffect(() => {
     if (items.length === 0 && !orderPlaced) navigate('/cart')
@@ -139,6 +161,44 @@ const Checkout = () => {
                 <h2 className="font-body text-text-primary font-medium text-sm tracking-widest uppercase mb-8">
                   Shipping Address
                 </h2>
+                {savedAddresses.length > 0 && (
+  <div className="mb-6">
+    <p className="section-label mb-3">Saved Addresses</p>
+    <div className="space-y-2">
+      {savedAddresses.map(addr => (
+        <button
+          key={addr._id}
+          type="button"
+          onClick={() => {
+            setSelectedAddress(addr)
+            setValue('street', addr.street)
+            setValue('city', addr.city)
+            setValue('state', addr.state)
+            setValue('pincode', addr.pincode)
+          }}
+          className={`w-full text-left p-4 border transition-colors ${
+            selectedAddress?._id === addr._id
+              ? 'border-gold bg-surface'
+              : 'border-surface-border hover:border-text-secondary'
+          }`}
+        >
+          <div className="flex items-center gap-2 mb-1">
+            <span className="section-label text-[10px]">{addr.label}</span>
+            {addr.isDefault && <span className="font-mono text-xs text-gold">Default</span>}
+          </div>
+          <p className="font-body text-text-secondary text-xs">
+            {addr.street}, {addr.city}, {addr.state} — {addr.pincode}
+          </p>
+        </button>
+      ))}
+    </div>
+    <div className="flex items-center gap-4 my-4">
+      <div className="flex-1 h-px bg-surface-border" />
+      <span className="font-body text-text-disabled text-xs">or enter new address</span>
+      <div className="flex-1 h-px bg-surface-border" />
+    </div>
+  </div>
+)}
                 <form onSubmit={handleSubmit(onAddressSubmit)} className="space-y-5">
                   <div>
                     <label className="section-label block mb-2">Street Address</label>

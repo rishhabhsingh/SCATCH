@@ -3,19 +3,25 @@ import { persist } from 'zustand/middleware'
 
 export const useAuthStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       accessToken: null,
 
       setAuth: (user, accessToken) => set({ user, accessToken }),
       setAccessToken: (accessToken) => set({ accessToken }),
+
       logout: () => set({ user: null, accessToken: null }),
-      isAuthenticated: () => !!useAuthStore.getState().accessToken,
+
+      isAuthenticated: () => !!get().accessToken,
+      isAdmin: () => get().user?.role === 'admin',
     }),
     {
       name: 'scatch-auth',
-      partialize: (state) => ({ user: state.user }),
-      // Note: never persist accessToken — security risk
+      // persist both user and accessToken
+      partialize: (state) => ({
+        user: state.user,
+        accessToken: state.accessToken,
+      }),
     }
   )
 )

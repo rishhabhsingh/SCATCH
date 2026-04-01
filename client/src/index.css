@@ -24,6 +24,15 @@
 }
 
 @layer components {
+  .btn-loading {
+  @apply relative opacity-70 cursor-not-allowed;
+}
+
+.btn-loading::after {
+  content: '';
+  @apply absolute inset-0 flex items-center justify-center;
+}
+
   .btn-primary {
     @apply bg-gold text-primary font-body font-medium px-8 py-4 
            text-sm tracking-widest uppercase transition-all duration-300

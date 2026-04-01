@@ -89,9 +89,9 @@ const HeroSection = () => {
           </p>
 
           {/* Headline */}
-          <h1
+         <h1
             ref={headlineRef}
-            className="font-display text-display-xl text-text-primary leading-none mb-6 overflow-hidden pb-4"
+            className="font-display text-5xl lg:text-display-xl text-text-primary leading-none mb-6 overflow-hidden pb-4"
           >
             <span className="block opacity-0">Carry Your</span>
             <span className="block text-gold opacity-0">Legacy.</span>

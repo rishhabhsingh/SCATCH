@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ShoppingBag, ChevronDown, ChevronUp, Package, Truck, CheckCircle, XCircle, Clock } from 'lucide-react'
 import { orderService } from '../../services/order.service'
 import toast from 'react-hot-toast'
+import { OrderCardSkeleton } from '../../components/ui/Skeleton'
 
 const statusConfig = {
   pending: { label: 'Pending', color: 'text-status-warning', bg: 'bg-status-warning/10', icon: Clock },
@@ -236,12 +237,10 @@ const MyOrders = () => {
   const tabs = ['all', 'pending', 'confirmed', 'shipped', 'delivered', 'cancelled']
 
   if (loading) return (
-    <div className="space-y-4">
-      {[...Array(3)].map((_, i) => (
-        <div key={i} className="skeleton h-36 rounded" />
-      ))}
-    </div>
-  )
+  <div className="space-y-4">
+    {[...Array(3)].map((_, i) => <OrderCardSkeleton key={i} />)}
+  </div>
+)
 
   return (
     <div>

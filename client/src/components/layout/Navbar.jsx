@@ -73,8 +73,10 @@ const Navbar = () => {
           }`}
       >
         {/* Top announcement bar */}
-        <div className="bg-gold text-primary text-center py-2 text-xs tracking-[0.2em] uppercase font-body font-medium">
-          Handcrafted Premium Leather Bag &nbsp;|&nbsp; Complimentary shipping above ₹2000 &nbsp;&nbsp;|&nbsp;&nbsp; 7-Day Easy Returns
+        <div className="bg-gold text-primary py-2 text-xs tracking-[0.2em] uppercase font-body font-medium overflow-hidden">
+            <div className="whitespace-nowrap px-4 text-center">
+                Handcrafted Premium Leather Bag &nbsp;|&nbsp; Complimentary shipping above ₹2000 &nbsp;&nbsp;|&nbsp;&nbsp; 7-Day Easy Returns
+          </div>
         </div>
 
         {/* Main navbar */}
@@ -142,58 +144,46 @@ const Navbar = () => {
 
               {/* Profile / Auth */}
               {accessToken ? (
-                <div className="relative group">
-                  <button className="text-text-secondary hover:text-gold transition-colors duration-200">
-                    <User size={18} />
-                  </button>
-                  {/* Dropdown */}
-                  <div className="absolute right-0 top-8 w-48 bg-surface border border-surface-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-dark">
-                    <div className="p-3 border-b border-surface-border">
-                      <p className="text-text-primary text-sm font-medium truncate">{user?.name}</p>
-                      <p className="text-text-secondary text-xs truncate">{user?.email}</p>
-                    </div>
-                    <Link
-                      to="/dashboard"
-                      className="block px-4 py-2.5 text-text-secondary hover:text-gold hover:bg-surface-raised text-sm transition-colors"
-                    >
-                      My Orders
-                    </Link>
-                    <Link
-                        to="/dashboard/orders"
-                        className="block px-4 py-2.5 text-text-secondary hover:text-gold hover:bg-surface-raised text-sm transition-colors"
-                    >
-                        Track My Order
-                    </Link>
-                    <Link
-                      to="/dashboard/profile"
-                      className="block px-4 py-2.5 text-text-secondary hover:text-gold hover:bg-surface-raised text-sm transition-colors"
-                    >
-                      Profile
-                    </Link>
-                    {user?.role === 'admin' && (
-                      <Link
-                        to="/admin"
-                        className="block px-4 py-2.5 text-gold hover:bg-surface-raised text-sm transition-colors"
-                      >
-                        Admin Panel
-                      </Link>
-                    )}
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2.5 text-status-error hover:bg-surface-raised text-sm transition-colors border-t border-surface-border"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  to="/login"
-                  className="text-text-secondary hover:text-gold transition-colors duration-200"
-                >
-                  <User size={18} />
-                </Link>
-              )}
+  <>
+    <div className="relative group">
+      <button className="text-text-secondary hover:text-gold transition-colors duration-200">
+        <User size={18} />
+      </button>
+      {/* Dropdown */}
+      <div className="absolute right-0 top-8 w-48 bg-surface border border-surface-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-dark z-50">
+        <div className="p-3 border-b border-surface-border">
+          <p className="text-text-primary text-sm font-medium truncate">{user?.name}</p>
+          <p className="text-text-secondary text-xs truncate">{user?.email}</p>
+          <span className="text-xs font-mono text-gold capitalize">{user?.role}</span>
+        </div>
+        <Link to="/dashboard" className="block px-4 py-2.5 text-text-secondary hover:text-gold hover:bg-surface-raised text-sm transition-colors">
+          My Orders
+        </Link>
+        <Link to="/dashboard/profile" className="block px-4 py-2.5 text-text-secondary hover:text-gold hover:bg-surface-raised text-sm transition-colors">
+          Profile
+        </Link>
+        {user?.role === 'admin' && (
+          <Link to="/admin" className="block px-4 py-2.5 text-gold hover:bg-surface-raised text-sm transition-colors border-t border-surface-border">
+            ⚡ Admin Panel
+          </Link>
+        )}
+        <button
+          onClick={handleLogout}
+          className="w-full text-left px-4 py-2.5 text-status-error hover:bg-surface-raised text-sm transition-colors border-t border-surface-border"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  </>
+) : (
+  <Link
+    to="/login"
+    className="text-text-secondary hover:text-gold transition-colors duration-200"
+  >
+    <User size={18} />
+  </Link>
+)}
             </div>
           </div>
         </div>

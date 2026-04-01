@@ -410,7 +410,7 @@ const Shop = () => {
                 {[...Array(12)].map((_, i) => <ProductSkeleton key={i} />)}
               </div>
             ) : products.length === 0 ? (
-              <div className="text-center py-24 border border-surface-border">
+             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-px bg-surface-border">
                 <ShoppingBag size={48} className="text-text-disabled mx-auto mb-4" />
                 <p className="font-display text-2xl text-text-secondary mb-2">No products found</p>
                 <p className="font-body text-text-disabled text-sm mb-8">

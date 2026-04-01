@@ -12,6 +12,7 @@ import { cartService } from '../services/cart.service'
 import { useAuthStore } from '../store/authStore'
 import { useCartStore } from '../store/cartStore'
 import toast from 'react-hot-toast'
+import { ProductDetailSkeleton } from '../components/ui/Skeleton'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -194,27 +195,7 @@ const ProductDetail = () => {
     : null
 
   // ── Loading State ────────────────────────────────────────
-  if (loading) {
-    return (
-      <div className="bg-primary min-h-screen pt-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div className="space-y-4">
-              <div className="skeleton w-full h-[520px]" />
-              <div className="grid grid-cols-4 gap-3">
-                {[...Array(4)].map((_, i) => <div key={i} className="skeleton h-24" />)}
-              </div>
-            </div>
-            <div className="space-y-4 pt-4">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className={`skeleton h-${i === 2 ? '12' : '6'} rounded w-${i === 0 ? '1/3' : i === 1 ? '3/4' : 'full'}`} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  if (loading) return <ProductDetailSkeleton />
 
   if (!product) return null
 
@@ -244,8 +225,7 @@ const ProductDetail = () => {
           <div ref={imageRef} className="opacity-0">
 
             {/* Main Image */}
-            <div className="relative overflow-hidden bg-surface mb-4 group"
-              style={{ height: '520px' }}>
+            <div className="relative overflow-hidden bg-surface mb-4 group h-72 lg:h-[520px]">
               {product.images?.[selectedImage] ? (
                 <img
                   src={product.images[selectedImage]}
